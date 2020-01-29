@@ -10,7 +10,7 @@ Winter Term 2019
 The following link contains a draft of the project design.
 
 [NLP Data Science & Analytics Project Part 1 – Project Design](
-https://pdx-cs.slack.com/files/UBCS9E9HB/FT37REH7W/data_science___analytics_project_part_1_____project_design.pdf)
+https://docs.google.com/document/d/1-16ze8Z9Pd9VzjOsUsB30QLM4l9-Fe2asJ9LgDiJDxA/edit?usp=sharing)
 
 #### Running the Data Analytic Scripts:
 Click on the Jupyter Notebooks below to load a demo of the script.  
