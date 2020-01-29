@@ -12,7 +12,7 @@ The following link contains a draft of the project design.
 [NLP Data Science & Analytics Project Part 1 – Project Design](
 https://docs.google.com/document/d/1-16ze8Z9Pd9VzjOsUsB30QLM4l9-Fe2asJ9LgDiJDxA/edit?usp=sharing)
 
-[Tasks Page-] (https://docs.google.com/spreadsheets/d/15pfClw353CceNJSaDTyWN4Gks7OzTciDINqbGHlZM6g/edit?usp=sharing)
+Tasks Page: (https://docs.google.com/spreadsheets/d/15pfClw353CceNJSaDTyWN4Gks7OzTciDINqbGHlZM6g/edit?usp=sharing)
 
 #### Running the Data Analytic Scripts:
 Click on the Jupyter Notebooks below to load a demo of the script.  
