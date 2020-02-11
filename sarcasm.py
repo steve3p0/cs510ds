@@ -1,63 +1,85 @@
 import nltk
-import csv
 import pandas as pd
 import string
 from nltk.corpus import stopwords
 from nltk.corpus.reader.api import CorpusReader
+from nltk.tokenize import RegexpTokenizer
 
-# https://stackoverflow.com/questions/52686640/how-to-incorporate-metadata-into-nltk-corpus-for-efficient-processing
-class MetadataCSVCorpusReader(CorpusReader):
-    def __init__(self, root, fileids, encoding='utf8', tagset=None):
-        super().__init__(root, fileids, encoding='utf8', tagset=None)
-        self._parsed_metadata = {}
-        metadata = self.open('metadata.csv')
-        reader = csv.DictReader(metadata)
-        for row in reader:
-            self._parsed_metadata[row['fileid']] = row
+# tokenizer that removes punctuation
+tokenizer = RegexpTokenizer(r'\w+')
 
-    @property
-    def metadata(self):
-        """
-        Return the contents of the corpus metadata.csv file, if it exists.
-        """
-        return self.open("metadata.csv").read()
+#file = 'sarc_s_meta_10.csv'
+#file = 'sarc_s_meta_100.csv'
+#file = 'sarc_s_meta_1000.csv'
+file = 'sarc_s_meta_10k.csv'
+#file = 'sarc_s_meta_100k.csv'
+col_headers = ['label', 'comment', 'author', 'subreddit', 'up_down_votes', 'up_votes', 'down_votes',
+               'comment_date', 'unix_time', 'parent_comment', 'parent_comment_id', 'link_id']
+comments_df = pd.read_csv(file, names=col_headers, sep='\t', encoding="utf-8", error_bad_lines=False, quoting=3) # quotechar=None)
 
-    @property
-    def parsed_metadata(self):
-        """
-        Return the contents of the metadata.csv file as a dict
-        """
-        return self._parsed_metadata
-
-
-#meta_corpus = MetadataCSVCorpusReader()
-
-# with open('sarc_s_meta_10.csv', 'r' ) as theFile:
-#     reader = csv.DictReader(theFile)
-#     for line in reader:
-#         # line is { 'workers': 'w0', 'constant': 7.334, 'age': -1.406, ... }
-#         # e.g. print( line[ 'workers' ] ) yields 'w0'
-#         print(line)
-
-
-#comments_df = pd.read_csv('sarc_s_meta_10.csv', error_bad_lines=False)
-col_headers = ['label', 'comment', 'author', 'subreddit', 'up_down_votes', 'up_votes', 'down_votes', 'comment_date', 'unix_time', 'parent_comment', 'parent_comment_id', 'link_id']
-comments_df = pd.read_csv('sarc_s_meta_10.csv', names=col_headers, sep='\t', encoding="utf-8")
-#comments_df['comment_tok'] = comments_df['comment'].apply(nltk.word_tokenize)
-#comments_df['comment_tok'] = comments_df['comment'].apply(nltk.tokenize.)
+# Remove Rows with Null Column Values
+for col in col_headers:
+    # if you want to allow null colunmn values for parent comments
+    #if col != 'parent_comment' or col != 'parent_comment_id':
+    comments_df = comments_df[pd.notnull(comments_df[col])]
 
 comments = comments_df['comment'].str.cat()
-print(comments)
-print(comments_df.shape)
-print(comments_df['comment'])
-
-
 tokens = nltk.word_tokenize(comments)
-text = nltk.Text(tokens)
-print(text)
+tokens_no_punct = tokenizer.tokenize(comments)
+text = nltk.Text(tokens_no_punct)
+stop_words = set(stopwords.words('english'))
+text_filtered = nltk.Text([w.lower() for w in text.tokens if w.lower() not in stop_words])
+
+print(len(text))                  # Total number of tokens
+print(len(set(text)))             # number of unique tokens
+print(len(set(text)) / len(text)) # lexical diversity
+print(text.count("oh"))           # occurances of a word
+print(100 * text.count("oh") / len(text)) # % of text
+
+
+# Show 10 most common words
+fdist = nltk.FreqDist(text_filtered)
+print(fdist.most_common(20))
+
+# Concordance Search of the word 'right'
+print(text.concordance('right'))
+
+# Plot a Fequency Distribution of the 10 most common words
+fdist.plot(20, cumulative=False)
+
+# Display a lexical Dispersion Plot
+# Show words importance weighte by it's lexical disperson in a corpus
+word_list = ['people', 'yeah', 'right', 'god', 'never', 'way', 'really']
+text.dispersion_plot(word_list)
+
+# Similar words
+# Search of words that appear in a similar range of contexts as 'never'
+print(text.similar('never'))
+
+# Common Contexts
+text.common_contexts(["never", "really"])
+
+# Collocations
+# print(text.collocation_list())  # <-- error ValueError: too many values to unpack (expected 2)
+print('; '.join(text.collocation_list()))
 
 
 
 
-#print(comments_df['comment_tok'])
+# Other metrics
+# Number of comments in each subreddit
+# Comment Scores
+# Comment Length: How many words
+# https://andrewpwheeler.com/2016/06/08/sentence-length-in-academic-articles/
+
+
+
+
+# Playing with the data
+# print(comments)
+# print(comments_df.shape)
+# print(comments_df['comment'])
+# print(text)
+# text.concordance("OMG")
+
 
