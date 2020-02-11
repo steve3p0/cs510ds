@@ -5,8 +5,6 @@ from nltk.corpus import stopwords
 from nltk.corpus.reader.api import CorpusReader
 from nltk.tokenize import RegexpTokenizer
 
-# tokenizer that removes punctuation
-tokenizer = RegexpTokenizer(r'\w+')
 
 #file = 'sarc_s_meta_10.csv'
 #file = 'sarc_s_meta_100.csv'
@@ -15,7 +13,7 @@ file = 'sarc_s_meta_10k.csv'
 #file = 'sarc_s_meta_100k.csv'
 col_headers = ['label', 'comment', 'author', 'subreddit', 'up_down_votes', 'up_votes', 'down_votes',
                'comment_date', 'unix_time', 'parent_comment', 'parent_comment_id', 'link_id']
-comments_df = pd.read_csv(file, names=col_headers, sep='\t', encoding="utf-8", error_bad_lines=False, quoting=3) # quotechar=None)
+comments_df = pd.read_csv(file, names=col_headers, sep='\t', error_bad_lines=False, quoting=3) # quotechar=None)
 
 # Remove Rows with Null Column Values
 for col in col_headers:
@@ -24,9 +22,15 @@ for col in col_headers:
     comments_df = comments_df[pd.notnull(comments_df[col])]
 
 comments = comments_df['comment'].str.cat()
+
+# Tokenization
+# tokenizer that removes punctuation
+tokenizer = RegexpTokenizer(r'\w+')
 tokens = nltk.word_tokenize(comments)
 tokens_no_punct = tokenizer.tokenize(comments)
 text = nltk.Text(tokens_no_punct)
+
+# Remove Stop words
 stop_words = set(stopwords.words('english'))
 text_filtered = nltk.Text([w.lower() for w in text.tokens if w.lower() not in stop_words])
 
@@ -48,7 +52,7 @@ print(text.concordance('right'))
 fdist.plot(20, cumulative=False)
 
 # Display a lexical Dispersion Plot
-# Show words importance weighte by it's lexical disperson in a corpus
+# Show words importance weight by it's lexical disperson in a corpus
 word_list = ['people', 'yeah', 'right', 'god', 'never', 'way', 'really']
 text.dispersion_plot(word_list)
 
