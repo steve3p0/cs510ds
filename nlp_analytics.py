@@ -1,160 +1,130 @@
-# Use this in the future for reading corpora from a text file
-# from nltk.corpus import PlaintextCorpusReader
-# corpus_root = 'corpora/'  # Mac users should leave out C:
-# corpus = PlaintextCorpusReader(corpus_root, '.*txt')  # all files ending in 'txt'
-
 import nltk
-from nltk.tag import pos_tag
-from nltk.tokenize import word_tokenize
-import matplotlib.pyplot as plt; plt.rcdefaults()
-import numpy as np
-import matplotlib.pyplot as plt
-from collections import Counter
-from collections import defaultdict
+import pandas as pd
+from nltk.corpus import stopwords
+from nltk.tokenize import RegexpTokenizer
+#import sys
+#sys.modules.pop('matplotlib')
+import matplotlib
+from matplotlib import pyplot as plt
+#import matplotlib.pyplot as plt
+# from collections import defaultdict
+from IPython.display import display, HTML
+display(HTML("<style>pre { white-space: pre !important; }</style>"))
+plt.rcdefaults()
+#%matplotlib inline
+#%matplotlib notebook
 
-nltk.download('averaged_perceptron_tagger')
-nltk.download('universal_tagset')
-nltk.download('tagsets')
-# tagset_upenn = nltk.help.upenn_tagset()
+print(f"NLTK: {nltk.__version__}")
+print(f"Pandas: {pd.__version__}")
+print(f"matplotlib: {matplotlib.__version__}")
 
-# Function Words: We explored using NLTK stop words, but ultimately we did not use it
-# We combined ADP, PRON, DET, CONJ into Inserts
-# from nltk.corpus import stopwords
-# nltk.download('stopwords')
-# stops = set(stopwords.words("english"))
 
-insert_words = ( 'yeah', 'Ok', 'ahh')
+# Load Sarcastic Content and Meta Data from CSV file
 
-messages = ['Gym?',
-            'yeah be there in about a half',
-            'Ok see you when you get here!',
-            'Seconds away',
-            'Meet me between smith and cramer asap',
-            'I got you and Taylor tix in pit section.',
-            'Get some milk please',
-            'Chk email',
-            'Made it',
-            'Do u know where u saved that movie on my compute',
-            'Im meeting some dude from the internet for happy hour ahh!',
-            'Wed is dinner for renetta call us soon',
-            'where r u???',
-            'pinball']
+#file = 'sarc_s_meta_100k.csv'
+file = 'sarc_s_meta_10k.csv'
+#file = 'sarc_s_meta_10.csv'
+col_headers = ['label', 'comment', 'author', 'subreddit', 'rank', 'up', 'down',
+               'date', 'Unix Time', 'Parent Comment', 'Parent ID', 'Link ID']
+comments_df = pd.read_csv(file, names=col_headers, sep='\t', error_bad_lines=False, quoting=3) # quotechar=None)
 
-# Iterate thru each message in our 2007 Text Message Corpus
-# NOTE: We could have written this code to simply get the counts on the whole corpus,
-# but for this assignment, message level analysis made it easier to confirm with manual conounts
-# This is how it looks if we use the upenn tagset:
-# Counter({'NOUN': 29, 'VERB': 12, 'ADP': 9, 'ADV': 8, 'PRON': 8, '.': 7, 'DET': 4, 'ADJ': 3, 'CONJ': 2})
-# But we are going to modify the tagging to:
-#   1. Inserts: Check if a word is in our inserts set
-#   2. Function Words: Combine ADP, PRON, DET, CONJ into FUNCTOR
-#   3. Remove Punctuation
+# Remove Rows with Null Column Values
+for col in col_headers:
+    # if you want to allow null colunmn values for parent comments
+    #if col != 'parent_comment' or col != 'parent_comment_id':
+    comments_df = comments_df[pd.notnull(comments_df[col])]
 
-counter_list = []
-words = defaultdict(list)
+pd.set_option('display.max_rows', 10)
+pd.set_option('display.expand_frame_repr', False)
+pd.set_option('display.max_columns', 12)
 
-for msg in messages:
-    tokens = nltk.word_tokenize(msg)
-    word_tag_pairs = nltk.pos_tag(tokens, tagset='universal')
-    print(f"\nRaw Message: {msg}")
-    print(f"Words with POS Tags: {word_tag_pairs}")
+df = pd.DataFrame(comments_df[0:9])
 
-    # Build a dictionary of words, grouped by POS
-    for w, tag in word_tag_pairs:
-        if w in insert_words:
-            tag = "Inserts"
-            words[tag].append(w)
-        elif tag in ('PRON', 'DET', 'ADP', 'CONJ'):
-            tag = "FUNCTOR"
-            words[tag].append(w)
-        elif tag != '.':
-            words[tag].append(w)
+# Set table styles
+styles = [ dict(selector="th", props=[('text-align', 'center')]),
+           dict(selector="th", props=[('white-space', 'nowrap')]),
+           dict(selector="td", props=[('text-align', 'left')]) ]
+styled_df = (df.style
+             .set_properties(subset=df.columns[0],  **{'white-space':'nowrap'})
+             .set_properties(subset=df.columns[1],  **{'width': '300px'})
+             .set_table_styles(styles))
 
-counter_pos = {k: len(v) for k,v in words.items()}
-total_words = sum(counter_pos.values())
+html = styled_df.hide_index().render()
+display(HTML(html))
 
-# List of words by POS
-print(f"\nSummary - POS Tagging")
-print(f"counter_pos: {counter_pos}")
-print(f"Nouns: {words['NOUN']}")
-print(f"Verbs: {words['VERB']}")
-print(f"Adjectives: {words['ADJ']}")
-print(f"Adverbs: {words['ADV']}")
-print(f"Function Words: {words['FUNCTOR']}")
-print(f"Inserts: {words['Inserts']}")
+# comments = comments_df['comment'].str.cat()
 
-# Gather Counts
-raw_counts_nouns = counter_pos['NOUN']
-raw_counts_verbs = counter_pos['VERB']
-raw_counts_adverbs = counter_pos['ADV']
-raw_counts_adjectives = counter_pos['ADJ']
-raw_counts_functors = counter_pos['FUNCTOR']
-raw_counts_inserts = counter_pos['Inserts']
+# Tokenization
+# Create a custom tokenizer to remove punctuation and stopwords.
+# Stopwords are common words like 'the', 'and', 'an', etc.
 
-percent_nouns = raw_counts_nouns / total_words
-percent_verbs = raw_counts_verbs / total_words
-percent_adjectives = raw_counts_adjectives / total_words
-percent_adverbs = raw_counts_adverbs / total_words
-percent_functors = raw_counts_functors / total_words
-percent_inserts = raw_counts_inserts / total_words
 
-norm_counts_nouns = percent_nouns * 1000
-norm_counts_verbs = percent_verbs * 1000
-norm_counts_adjectives = percent_adjectives * 1000
-norm_counts_adverbs = percent_adverbs * 1000
-norm_counts_functors = percent_functors * 1000
-norm_counts_inserts = percent_inserts * 1000
+comments = comments_df['comment'].str.cat()
 
-# Print Counts
-print(f"\nRaw Counts:")
-print(f"Nouns: {raw_counts_nouns}")
-print(f"Verbs: {raw_counts_verbs}")
-print(f"Adjectives: {raw_counts_adjectives}")
-print(f"Adverbs: {raw_counts_adverbs}")
-print(f"Function Words: {raw_counts_functors}")
-print(f"Inserts: {raw_counts_inserts}")
-print(f"Total Words: {total_words}")
+tokenizer = RegexpTokenizer(r'\w+')
+stop_words = set(stopwords.words('english'))
 
-print(f"\nPercentages:")
-print(f"Nouns: {percent_nouns:.1%}")
-print(f"Verbs: {percent_verbs:.1%}")
-print(f"Adjectives: {percent_adjectives:.1%}")
-print(f"Adverbs: {percent_adverbs:.1%}")
-print(f"Function Words: {percent_functors:.1%}")
-print(f"Inserts: {percent_inserts:.1%}")
-total_percentages = sum([percent_nouns, percent_verbs, percent_adjectives, percent_adverbs,
-                        percent_functors, percent_inserts])
-print(f"Total Percentages: {total_percentages:.1%}")
+tokens = nltk.word_tokenize(comments)
+tokens_no_punct = tokenizer.tokenize(comments)
+text = nltk.Text(tokens_no_punct)
 
-print(f"\nNormed Counts Per 1000:")
-print(f"Nouns: {norm_counts_nouns:0.1f}")
-print(f"Verbs: {norm_counts_verbs:0.1f}")
-print(f"Adjectives: {norm_counts_adjectives:0.1f}")
-print(f"Adverbs: {norm_counts_adverbs:0.1f}")
-print(f"Function Words: {norm_counts_functors:0.1f}")
-print(f"Inserts: {norm_counts_inserts:0.1f}")
-total_norm_counts = sum([norm_counts_nouns, norm_counts_verbs, norm_counts_adjectives, norm_counts_adverbs,
-                        norm_counts_functors, norm_counts_inserts])
-print(f"Total Norm Counts: {total_norm_counts:0.1f}")
+text_filtered = nltk.Text([w.lower() for w in text.tokens if w.lower() not in stop_words])
 
-# Graph it!
-width = 0.7
-p1 = plt.bar(width=width, x=1, height=norm_counts_nouns)
-p2 = plt.bar(width=width, x=1, height=norm_counts_verbs, bottom=norm_counts_nouns)
-p3 = plt.bar(width=width, x=1, height=norm_counts_adverbs, bottom=norm_counts_nouns + norm_counts_verbs)
-p4 = plt.bar(width=width, x=1, height=norm_counts_adjectives, bottom=norm_counts_nouns + norm_counts_verbs + norm_counts_adverbs)
 
-plt.ylabel('Normed Counts Per 1000 Words')
-plt.title('2007 Text Messages: Frequency of Lexical Word Classes')
-plt.tick_params(
-    axis='x',          # changes apply to the x-axis
-    which='both',      # both major and minor ticks are affected
-    bottom=False,      # ticks along the bottom edge are off
-    top=False,         # ticks along the top edge are off
-    labelbottom=False) # labels along the bottom edge are off
+### Counting Words, Frequency Distributions, and Collocations
+# We can simply count the number of tokens in a corpus, the number of unique tokens (word types), the
+# lexical diversity of a corpus, the occurrences of a specific word, and the percentage that a word takes up
+# in a corpus, among many other calculations we can make. This will give us some sense of how large the
+# corpus is, how lexically rich it is and allows us to start poking around the corpus.
 
-actual_last_value = norm_counts_nouns + norm_counts_verbs + norm_counts_adverbs
-max_y_value = total_words * 1000
-plt.legend(loc='center left', bbox_to_anchor=(1, 0.5), handles=(p1[0], p2[0], p3[0], p4[0]), labels=('Nouns', 'Verbs', 'Adverbs', 'Adjectives'))
-plt.autoscale(False)
-plt.show()
+comments = comments_df['comment'].str.cat()
+tokenizer = RegexpTokenizer(r'\w+')
+stop_words = set(stopwords.words('english'))
+tokens = nltk.word_tokenize(comments)
+tokens_no_punct = tokenizer.tokenize(comments)
+text = nltk.Text(tokens_no_punct)
+text_filtered = nltk.Text([w.lower() for w in text.tokens if w.lower() not in stop_words])
+
+print(len(text))                  # Total number of tokens
+print(len(set(text)))             # number of unique tokens
+print(len(set(text)) / len(text)) # lexical diversity
+print(text.count("oh"))           # occurances of a word
+print(100 * text.count("oh") / len(text)) # % of text
+
+
+### Common Words, Concordance Searching and Frequency Distributions
+# We can display the most common words, perform condordance searches and display frequency distributions.
+
+fdist = nltk.FreqDist(text_filtered)
+print(fdist.most_common(20))
+
+# Concordance Search of the word 'right'
+print(text.concordance('right'))
+
+# Plot a Fequency Distribution of the 10 most common words
+#fdist.plot(20, cumulative=False)
+fdist.plot(20)
+
+### Display a lexical Dispersion Plot
+# Show a word's importance weighted by it's lexical disperson in a corpus
+
+word_list = ['people', 'yeah', 'right', 'god', 'never', 'way', 'really']
+text.dispersion_plot(word_list)
+
+### Similar words, Common Contexts, and Collocations
+# Show a word's importance weighted by it's lexical disperson in a corpus
+
+# Search of words that appear in a similar range of contexts as 'never'
+print(text.similar('never'))
+# Common Contexts
+text.common_contexts(["never", "really"])
+# Collocations
+# print(text.collocation_list())  # <-- error ValueError: too many values to unpack (expected 2)
+print('; '.join(text.collocation_list()))
+
+### Other metrics
+# * Number of comments in each subreddit
+# * Comment Scores
+# * Comment Length: How many words
+# * Sentence Length
+#https://andrewpwheeler.com/2016/06/08/sentence-length-in-academic-articles/
