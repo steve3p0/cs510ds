@@ -1,10 +1,19 @@
-# CS 510 DS: Analytics and Data Science
+
+## NLP Data Science Project: Sarcasm in Reddit
+This is the best data science project EVER!
+
+### CS510: Analytics and Data Science
 This is a source code repository of an NLP Data Science project for CS 510: 
 Analytics & Data Science tought at Portland State University.
 
 Portland State University  
 [CS 510: Analytics and Data Science](https://docs.google.com/document/d/1kCtyvFJcMTXyjqntF85PAItWCT0LjCmx_Z5IVKr0Xh4)  
 Winter Term 2019  
+
+This is an rough draft of the readme.  Some good sample readme.md templates:
+
+* [fvcproductions/sampleREADME.md](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
+* [PurpleBooth/README-Template.md](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
 
 #### Project Design:  
 The following link contains a draft of the project design.
