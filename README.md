@@ -21,18 +21,18 @@ The following link contains a draft of the project design.
 [NLP Data Science & Analytics Project Part 1 – Project Design](
 https://docs.google.com/document/d/1-16ze8Z9Pd9VzjOsUsB30QLM4l9-Fe2asJ9LgDiJDxA/edit?usp=sharing)
 
-[Topic Presentation](
+[Topic Presentation Link](
 https://docs.google.com/presentation/d/1YDj3Z2qVYmNO2b_ixI-pcAPcj8Xp_oMAZ1gkc3DdwKU/edit?usp=sharing)
 
 [Task Sheet](
 https://docs.google.com/spreadsheets/d/15pfClw353CceNJSaDTyWN4Gks7OzTciDINqbGHlZM6g/edit?usp=sharing)
 
 #### Midpoint Report:
-[Midpoint Report](
+[NLP Data Science & Analytics Project Part 2 – Midpoint Report](
 https://drive.google.com/file/d/10P1OPdUeAGhEH-0DR5b1Iq3i85-kfWm_/view?usp=sharing)
 
 #### Final Presentation:
-[Final Presentation](
+[Final Presentation Link](
 https://docs.google.com/presentation/d/1v-VKp6tmhxXtwEEpsZdC9E7lr1ui-nyoKZCdldfrytE/edit?usp=sharing)
 
 #### Permissions to Use: 
