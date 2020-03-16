@@ -36,7 +36,7 @@ https://drive.google.com/file/d/10P1OPdUeAGhEH-0DR5b1Iq3i85-kfWm_/view?usp=shari
 https://docs.google.com/presentation/d/1v-VKp6tmhxXtwEEpsZdC9E7lr1ui-nyoKZCdldfrytE/edit?usp=sharing)
 
 #### Permissions to Use: 
-We give permissions to use 
+We give permissions to use
 
 #### Project Dataset:
 [Reddit sarcastic and non-sarcastic comments and metadata.](https://nlp.cs.princeton.edu/SARC/2.0/raw/)
