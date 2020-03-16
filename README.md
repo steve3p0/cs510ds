@@ -15,13 +15,21 @@ This is an rough draft of the readme.  Some good sample readme.md templates:
 * [fvcproductions/sampleREADME.md](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
 * [PurpleBooth/README-Template.md](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
 
-#### Project Design:  
+#### Project Design/Topic Presentation:  
 The following link contains a draft of the project design.
 
 [NLP Data Science & Analytics Project Part 1 – Project Design](
 https://docs.google.com/document/d/1-16ze8Z9Pd9VzjOsUsB30QLM4l9-Fe2asJ9LgDiJDxA/edit?usp=sharing)
 
-Direct link to the tasks: https://docs.google.com/spreadsheets/d/15pfClw353CceNJSaDTyWN4Gks7OzTciDINqbGHlZM6g/edit?usp=sharing
+[Topic Presentation](
+https://docs.google.com/presentation/d/1YDj3Z2qVYmNO2b_ixI-pcAPcj8Xp_oMAZ1gkc3DdwKU/edit?usp=sharing)
+
+[Task Sheet](
+https://docs.google.com/spreadsheets/d/15pfClw353CceNJSaDTyWN4Gks7OzTciDINqbGHlZM6g/edit?usp=sharing)
+
+#### Midpoint Report
+[Midpoint Report](
+https://drive.google.com/file/d/10P1OPdUeAGhEH-0DR5b1Iq3i85-kfWm_/view?usp=sharing)
 
 #### Project Dataset:
 [Reddit sarcastic and non-sarcastic comments and metadata.](https://nlp.cs.princeton.edu/SARC/2.0/raw/)
