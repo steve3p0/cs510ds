@@ -24,7 +24,7 @@ https://docs.google.com/document/d/1-16ze8Z9Pd9VzjOsUsB30QLM4l9-Fe2asJ9LgDiJDxA/
 Direct link to the tasks: https://docs.google.com/spreadsheets/d/15pfClw353CceNJSaDTyWN4Gks7OzTciDINqbGHlZM6g/edit?usp=sharing
 
 #### Project Dataset:
-[Reddit sarcastic and non-sarcastic comments](https://nlp.cs.princeton.edu/SARC/2.0/raw/)
+[Reddit sarcastic and non-sarcastic comments and metadata.](https://nlp.cs.princeton.edu/SARC/2.0/raw/)
 
 #### Running the Data Analytic Scripts:
 Click on the Jupyter Notebooks below to load a demo of the script.  
