@@ -27,13 +27,16 @@ https://docs.google.com/presentation/d/1YDj3Z2qVYmNO2b_ixI-pcAPcj8Xp_oMAZ1gkc3Dd
 [Task Sheet](
 https://docs.google.com/spreadsheets/d/15pfClw353CceNJSaDTyWN4Gks7OzTciDINqbGHlZM6g/edit?usp=sharing)
 
-#### Midpoint Report
+#### Midpoint Report:
 [Midpoint Report](
 https://drive.google.com/file/d/10P1OPdUeAGhEH-0DR5b1Iq3i85-kfWm_/view?usp=sharing)
 
-#### Final Presentation
+#### Final Presentation:
 [Final Presentation](
 https://docs.google.com/presentation/d/1v-VKp6tmhxXtwEEpsZdC9E7lr1ui-nyoKZCdldfrytE/edit?usp=sharing)
+
+#### Permissions to Use: 
+We give permissions to use 
 
 #### Project Dataset:
 [Reddit sarcastic and non-sarcastic comments and metadata.](https://nlp.cs.princeton.edu/SARC/2.0/raw/)
