@@ -31,6 +31,10 @@ https://docs.google.com/spreadsheets/d/15pfClw353CceNJSaDTyWN4Gks7OzTciDINqbGHlZ
 [Midpoint Report](
 https://drive.google.com/file/d/10P1OPdUeAGhEH-0DR5b1Iq3i85-kfWm_/view?usp=sharing)
 
+#### Final Presentation
+[Final Presentation](
+https://docs.google.com/presentation/d/1v-VKp6tmhxXtwEEpsZdC9E7lr1ui-nyoKZCdldfrytE/edit?usp=sharing)
+
 #### Project Dataset:
 [Reddit sarcastic and non-sarcastic comments and metadata.](https://nlp.cs.princeton.edu/SARC/2.0/raw/)
 
