@@ -1,0 +1,8 @@
+Sarcastic: 
+oh, obviously, let, wow, world, ever, work
+Reference: 
+dont, thats, cant, im, youre, didnt, doesnt, theyre, isnt, every, hes
+Nonsarcastic: 
+say, still, actually, something, first, back, years, obama, someone, also, thought, take, shit, fuck, guy
+Shared: 
+like, people, would, right, know, get, well, one, good, never, us, see, sure, could, make, really, way, think, need, go, want, much, time, money, better, going, thing, even, got
